@@ -1,0 +1,78 @@
+image:
+  name: abhisheksaxena7/salesforcedockerimg
+pipelines:
+  custom:
+    release/1.8.0**:   
+#      - step:
+#          script:
+#            - ant -buildfile build/build.xml deployCode -Dsfdc.username=$qauser -Dsfdc.password=$qapassword$qatoken -Dsfdc.serverurl=https://$qaurl
+#      - step:
+#          name: Deploy Check Production
+#          script:
+#            - ant -buildfile build/build.xml deployCheckandTest -Dsfdc.username=$produser -Dsfdc.password=$prodpassword$prodtoken -Dsfdc.serverurl=https://$produrl            
+      - step:
+          name: Deploy Check Production
+          script:
+            - ant -buildfile build/build.xml deployCheckandTest -Dsfdc.username=$produser -Dsfdc.password=$prodpassword$prodtoken -Dsfdc.serverurl=https://$produrl            
+      - step:
+          name: Deploy Production
+          script:
+            - ant -buildfile build/build.xml deployCodeSpecTest -Dsfdc.username=$produser -Dsfdc.password=$prodpassword$prodtoken -Dsfdc.serverurl=https://$produrl            
+  branches: #Branch pipelines will execute a pipeline run for a specific action when the repository detects a push commit to the below specified branches. 
+
+
+## MAKE SURE TO UNHASH ALL OF THE LINES  ALSO PLEASE DO NOT UNHASH THIS LINE OR IF YOU DO PLEASE DELETE THIS LINE
+
+##         EACH FEATURE BRANCH THAT YOU COMMIT INTO BITBUCKET MUST 
+##         HAVE THE MULTI STEP PIPELINE ENABLE BELOW SO THAT WE CAN GUARANTEE SUCCESSFUL TESTING AND MERGING
+##         OF SOURCE CODE INTO THE DESIGNATED SPRINT BRANCH AND THEN ULTIMATELY INTO THE RELEASE BRANCH WHICH WILL BE USED FOR COMPREHENSIVE 
+##         CODE DEPLOYMENT INTO QA AND INTO THE ABOVE FURTHER SALESFORCE ENVIRONMENTS.
+##
+
+#If this is your first time doing this please reach out to nicholas.sampah@caci.com
+
+    release/1.8.0**: 
+#      - step:
+#          name: Deploy Code to AlphaR
+#          script:
+#            - ant -buildfile build/build.xml deployCode -Dsfdc.username=$alpharuser -Dsfdc.password=$alpharpass$alphartoken -Dsfdc.serverurl=https://$alpharurl
+##      - step:
+#          name: Deploy Check BetaR
+#          script:
+#            - ant -buildfile build/build.xml deployEmptyCheckOnly -Dsfdc.username=$betaruser -Dsfdc.password=$betarpassword -Dsfdc.serverurl=https://$betarurl
+#      - step:
+#          name: Deploy Code BetaR
+#          script:
+#            - ant -buildfile build/build.xml deployCode -Dsfdc.username=$betaruser -Dsfdc.password=$betarpassword -Dsfdc.serverurl=https://$betarurl            
+#      - step:
+#          name: Deploy check QA
+#          script:
+#            - ant -buildfile build/build.xml deployEmptyCheckOnly -Dsfdc.username=$qauser -Dsfdc.password=$qapassword$qatoken -Dsfdc.serverurl=https://$qaurl
+#      - step:
+#          name: Deploy Check Staging
+#          script:
+#            - ant -buildfile build/build.xml deployEmptyCheckOnly -Dsfdc.username=$stguser -Dsfdc.password=$stgpassword$stgtoken -Dsfdc.serverurl=https://$stgurl
+#      - step:
+#          name: Deploy Code Staging
+#          script:
+#            - ant -buildfile build/build.xml deployCodeSpecTest -Dsfdc.username=$stguser -Dsfdc.password=$stgpassword$stgtoken -Dsfdc.serverurl=https://$stgurl
+#      - step:
+#          name: Deploy Check Production
+#          script:
+#            - ant -buildfile build/build.xml deployCheckandTest -Dsfdc.username=$produser -Dsfdc.password=$prodpassword$prodtoken -Dsfdc.serverurl=https://$produrl            
+#      - step:
+#          name: Deploy Check Training
+#          script:
+#            - ant -buildfile build/build.xml deployEmptyCheckOnly -Dsfdc.username=$trnuser -Dsfdc.password=$trnpassword$trntoken -Dsfdc.serverurl=https://$trnurl
+#      - step:
+#          name: Deploy Code Training
+#          script:
+#            - ant -buildfile build/build.xml deployCodeSpecTest -Dsfdc.username=$trnuser -Dsfdc.password=$trnpassword$trntoken -Dsfdc.serverurl=https://$trnurl
+      - step:
+          name: Deploy Check RC
+          script:
+            - ant -buildfile build/build.xml deployEmptyCheckOnly -Dsfdc.username=$rcuser -Dsfdc.password=$rcpassword$rctoken -Dsfdc.serverurl=https://$rcurl
+      - step:
+          name: Deploy Code RC
+          script:
+            - ant -buildfile build/build.xml deployCodeSpecTest -Dsfdc.username=$rcuser -Dsfdc.password=$rcpassword$rctoken -Dsfdc.serverurl=https://$rcurl            
